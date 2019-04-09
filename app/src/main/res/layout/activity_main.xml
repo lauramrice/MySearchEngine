@@ -1,0 +1,71 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <EditText
+        android:id="@+id/edittext"
+        android:layout_width="220sp"
+        android:layout_height="40dp"
+        android:layout_marginTop="160dp"
+        android:layout_marginLeft="90dp"
+        android:background="@drawable/et_bg"
+        android:fontFamily="sans-serif-light"
+        android:paddingLeft="5dp"
+        android:paddingRight="90dp"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="15sp" />
+
+    <Button
+        android:id="@+id/GoogleButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/edittext"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="72dp"
+        android:layout_marginTop="16dp"
+        android:padding="10sp"
+        android:text="Search Google" />
+
+    <Button
+        android:id="@+id/LocalButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/edittext"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="204dp"
+        android:layout_marginTop="16dp"
+        android:padding="10sp"
+        android:text="Local Search" />
+
+    <ProgressBar
+        android:id="@+id/pb_loading_indicator"
+        android:layout_below="@+id/GoogleButton"
+        android:layout_height="42dp"
+        android:layout_width="42dp"
+        android:visibility="gone" />
+
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@+id/pb_loading_indicator"
+        android:layout_alignParentLeft="true"
+        android:maxLines="1000"
+        android:padding="10sp"
+        android:scrollbars="vertical"
+        android:text="Results" />
+
+    <TextView
+        android:id="@+id/name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="80dp"
+        android:gravity="center"
+        android:inputType="text"
+        android:textSize="45dp"
+        android:text="Search Engine" />
+
+
+</RelativeLayout>
