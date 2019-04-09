@@ -62,46 +62,6 @@ public class ResultsActivity extends AppCompatActivity {
         ResultsActivity.GoogleSearchAsyncTask searchTask = new ResultsActivity.GoogleSearchAsyncTask();
         searchTask.execute(url);
 
-        /*
-        // button onClick
-        btn.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-
-                final String searchString = eText.getText().toString();
-                Log.d(TAG, "Searching for : " + searchString);
-                resultTextView.setText("Searching for : " + searchString);
-
-                // hide keyboard
-                InputMethodManager inputManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
-
-                // looking for
-                String searchStringNoSpaces = searchString.replace(" ", "+");
-
-                // Your API key
-                String key="AIzaSyC1xDN5blvcznnEWAI7whKsqTBQzcSFK7I";;
-
-                //Search Engine ID
-                String cx = "011866588680669076246:-98upx2nk0a";
-
-
-                String urlString = "https://www.googleapis.com/customsearch/v1?q=" + searchStringNoSpaces + "&key=" + key + "&cx=" + cx + "&alt=json";
-                URL url = null;
-                try {
-                    url = new URL(urlString);
-                } catch (MalformedURLException e) {
-                    Log.e(TAG, "ERROR converting String to URL " + e.toString());
-                }
-                Log.d(TAG, "Url = "+  urlString);
-
-
-                // start AsyncTask
-                ResultsActivity.GoogleSearchAsyncTask searchTask = new ResultsActivity.GoogleSearchAsyncTask();
-                searchTask.execute(url);
-
-            }
-        });
-*/
     }
 
     class GoogleSearchAsyncTask extends AsyncTask<URL, Integer, String> {
