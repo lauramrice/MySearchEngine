@@ -160,7 +160,6 @@ public class MainActivity extends Activity {
                 }else{
 
                     // response problem
-
                     String errorMsg = "Http ERROR response " + responseMessage + "\n" + "Make sure to replace in code your own Google API key and Search Engine ID";
                     Log.e(TAG, errorMsg);
                     result = errorMsg;
