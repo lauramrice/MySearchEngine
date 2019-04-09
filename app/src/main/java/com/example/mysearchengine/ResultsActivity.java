@@ -1,22 +1,14 @@
 package com.example.mysearchengine;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.inputmethod.InputMethodManager;
-import android.view.textclassifier.TextLinks;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
@@ -26,9 +18,14 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 
-
-public class MainActivity extends Activity {
+public class ResultsActivity extends AppCompatActivity {
 
     EditText eText;
     Button btn;
@@ -51,8 +48,23 @@ public class MainActivity extends Activity {
         resultTextView = (TextView) findViewById(R.id.textView1);
         progressBar = (ProgressBar) findViewById(R.id.pb_loading_indicator);
 
+        Intent i = getIntent();
+        String urlString = i.getStringExtra("url");
+
+        URL url = null;
+        try {
+            url = new URL(urlString);
+        } catch (MalformedURLException e) {
+            Log.e(TAG, "ERROR converting String to URL " + e.toString());
+        }
+        Log.d(TAG, "Url = "+  urlString);
+
+        ResultsActivity.GoogleSearchAsyncTask searchTask = new ResultsActivity.GoogleSearchAsyncTask();
+        searchTask.execute(url);
+
+        /*
         // button onClick
-        btn.setOnClickListener(new OnClickListener() {
+        btn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
                 final String searchString = eText.getText().toString();
@@ -74,31 +86,25 @@ public class MainActivity extends Activity {
 
 
                 String urlString = "https://www.googleapis.com/customsearch/v1?q=" + searchStringNoSpaces + "&key=" + key + "&cx=" + cx + "&alt=json";
-                /*URL url = null;
+                URL url = null;
                 try {
                     url = new URL(urlString);
                 } catch (MalformedURLException e) {
                     Log.e(TAG, "ERROR converting String to URL " + e.toString());
                 }
-                Log.d(TAG, "Url = "+  urlString);*/
+                Log.d(TAG, "Url = "+  urlString);
 
-                Intent i = new Intent(MainActivity.this,ResultsActivity.class);
-                i.putExtra("url",urlString);
-                startActivity(i);
 
-/*
                 // start AsyncTask
-                GoogleSearchAsyncTask searchTask = new GoogleSearchAsyncTask();
+                ResultsActivity.GoogleSearchAsyncTask searchTask = new ResultsActivity.GoogleSearchAsyncTask();
                 searchTask.execute(url);
-*/
+
             }
         });
-
+*/
     }
 
-
-/*
-    private class GoogleSearchAsyncTask extends AsyncTask<URL, Integer, String>{
+    class GoogleSearchAsyncTask extends AsyncTask<URL, Integer, String> {
 
         protected void onPreExecute(){
             Log.d(TAG, "AsyncTask - onPreExecute");
@@ -138,25 +144,25 @@ public class MainActivity extends Activity {
                     BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
                     StringBuffer buffer = new StringBuffer();
 
-                   String line = "";
-                   while((line = bufferedReader.readLine()) != null){
-                       buffer.append(line);
-                   }
+                    String line = "";
+                    while((line = bufferedReader.readLine()) != null){
+                        buffer.append(line);
+                    }
 
-                   String finalJson = buffer.toString();
+                    String finalJson = buffer.toString();
 
-                   JSONObject JO = new JSONObject(finalJson);
-                   JSONArray JA = JO.getJSONArray("items");
+                    JSONObject JO = new JSONObject(finalJson);
+                    JSONArray JA = JO.getJSONArray("items");
 
-                   StringBuffer finalBufferedData = new StringBuffer();
-                   for(int i = 0; i < JA.length();i++){
-                       JSONObject finalJO = JA.getJSONObject(i);
+                    StringBuffer finalBufferedData = new StringBuffer();
+                    for(int i = 0; i < JA.length();i++){
+                        JSONObject finalJO = JA.getJSONObject(i);
 
-                       String title = finalJO.getString("title");
-                       String snippet = finalJO.getString("snippet");
-                       String link = finalJO.getString("link");
-                       finalBufferedData.append(title + "\n" + snippet + "\n" + link + "\n\n");
-                   }
+                        String title = finalJO.getString("title");
+                        String snippet = finalJO.getString("snippet");
+                        String link = finalJO.getString("link");
+                        finalBufferedData.append(title + "\n" + snippet + "\n" + link + "\n\n");
+                    }
 
                     Log.d(TAG, "result=" + result);
 
@@ -168,7 +174,7 @@ public class MainActivity extends Activity {
                     String errorMsg = "Http ERROR response " + responseMessage + "\n" + "Make sure to replace in code your own Google API key and Search Engine ID";
                     Log.e(TAG, errorMsg);
                     result = errorMsg;
-                    return  result;
+                    return result;
 
                 }
             } catch (IOException e) {
@@ -199,5 +205,4 @@ public class MainActivity extends Activity {
             resultTextView.setText(result);
         }
     }
-*/
 }
