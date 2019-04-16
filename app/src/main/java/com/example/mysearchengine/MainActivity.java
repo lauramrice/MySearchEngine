@@ -32,6 +32,7 @@ public class MainActivity extends Activity {
 
     EditText eText;
     Button btn;
+    Button localbtn;
     TextView resultTextView;
     ProgressBar progressBar;
 
@@ -45,12 +46,14 @@ public class MainActivity extends Activity {
         // GUI init
         eText = (EditText) findViewById(R.id.edittext);
         btn = (Button) findViewById(R.id.GoogleButton);
+        localbtn = (Button) findViewById(R.id.LocalButton);
         resultTextView = (TextView) findViewById(R.id.textView1);
         progressBar = (ProgressBar) findViewById(R.id.pb_loading_indicator);
 
-        // button onClick
+        // Google Search button onClick
         btn.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
+
 
                 final String searchString = eText.getText().toString();
                 Log.d(TAG, "Searching for : " + searchString);
@@ -77,5 +80,27 @@ public class MainActivity extends Activity {
             }
         });
 
+        //local search button on click
+        localbtn.setOnClickListener(new OnClickListener() {
+            public void onClick(View v) {
+
+                final String searchString = eText.getText().toString();
+                Log.d(TAG, "Searching for : " + searchString);
+                resultTextView.setText("Searching for : " + searchString);
+
+                // hide keyboard
+                InputMethodManager inputManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+
+                // looking for
+                //String searchStringNoSpaces = searchString.replace(" ", "+");
+
+                String urlString = "http://192.168.253.112/MyApi/Api.php";
+
+                Intent i = new Intent(MainActivity.this,LocalSearchActivity.class);
+                i.putExtra("url",urlString);
+                startActivity(i);
+            }
+        });
     }
 }

@@ -48,6 +48,35 @@ public class ResultsActivity extends AppCompatActivity {
         resultTextView = (TextView) findViewById(R.id.textView1);
         progressBar = (ProgressBar) findViewById(R.id.pb_loading_indicator);
 
+        btn.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+
+
+                final String searchString = eText.getText().toString();
+                Log.d(TAG, "Searching for : " + searchString);
+                resultTextView.setText("Searching for : " + searchString);
+
+                // hide keyboard
+                InputMethodManager inputManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+
+                // looking for
+                String searchStringNoSpaces = searchString.replace(" ", "+");
+
+                // Google Search API key
+                String key="AIzaSyC1xDN5blvcznnEWAI7whKsqTBQzcSFK7I";;
+
+                //Search Engine ID
+                String cx = "011866588680669076246:-98upx2nk0a";
+
+                String urlString = "https://www.googleapis.com/customsearch/v1?q=" + searchStringNoSpaces + "&key=" + key + "&cx=" + cx + "&alt=json";
+
+                Intent i = new Intent(ResultsActivity.this,ResultsActivity.class);
+                i.putExtra("url",urlString);
+                startActivity(i);
+            }
+        });
+
         Intent i = getIntent();
         String urlString = i.getStringExtra("url");
 
