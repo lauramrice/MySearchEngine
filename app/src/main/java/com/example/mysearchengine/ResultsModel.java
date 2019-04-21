@@ -6,6 +6,12 @@ public class ResultsModel {
     String snippet;
     String link;
 
+    public ResultsModel(String title, String snippet, String link){
+        this.setTitle(title);
+        this.setSnippet(snippet);
+        this.setLink(link);
+    }
+
     public String getTitle() {
         return title;
     }

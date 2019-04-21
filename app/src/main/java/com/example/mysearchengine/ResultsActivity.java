@@ -36,6 +36,7 @@ public class ResultsActivity extends AppCompatActivity {
     public static String result = null;
     Integer responseCode = null;
     String responseMessage = "";
+    String json_string;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -148,9 +149,9 @@ public class ResultsActivity extends AppCompatActivity {
                         JSONObject finalJO = JA.getJSONObject(i);
 
                         String title = finalJO.getString("title");
-                        String snippet = finalJO.getString("snippet");
+                        String snippet = finalJO.getString("htmlSnippet");
                         String link = finalJO.getString("link");
-                        finalBufferedData.append(title + "\n" + snippet + "\n" + link + "\n\n");
+                        finalBufferedData.append(title + "\n" + link + "\n" + snippet + "\n\n");
                     }
 
                     Log.d(TAG, "result=" + result);
@@ -160,7 +161,7 @@ public class ResultsActivity extends AppCompatActivity {
                 }else{
 
                     // response problem
-                    String errorMsg = "Http ERROR response " + responseMessage + "\n" + "Make sure to replace in code your own Google API key and Search Engine ID";
+                    String errorMsg = "Http ERROR response " + responseMessage + "\n";
                     Log.e(TAG, errorMsg);
                     result = errorMsg;
                     return result;
@@ -192,6 +193,22 @@ public class ResultsActivity extends AppCompatActivity {
 
             // show result
             resultTextView.setText(result);
+            json_string = result;
+            parseJSON(resultTextView);
+        }
+    }
+
+    public void parseJSON(View view){
+
+        if(json_string == null){
+
+        }
+        else{
+
+            Intent intent = new Intent(this, DisplayListActivity.class);
+            intent.putExtra("json_data",json_string);
+            startActivity(intent);
+
         }
     }
 }

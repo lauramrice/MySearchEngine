@@ -1,58 +1,79 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
-    <RelativeLayout
+    <EditText
+        android:id="@+id/edittext"
+        android:layout_width="300sp"
+        android:layout_height="30dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginLeft="10dp"
+        android:background="@drawable/et_bg"
+        android:fontFamily="sans-serif-light"
+        android:paddingLeft="5dp"
+        android:paddingRight="90dp"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="15sp" />
+
+    <Button
+        android:id="@+id/GoogleButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/edittext"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="0dp"
+        android:padding="10sp"
+        android:onClick="Action"
+        android:text="Search Google" />
+
+    <Button
+        android:id="@+id/LocalButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/edittext"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="140dp"
+        android:layout_marginTop="0dp"
+        android:padding="10sp"
+        android:text="Local Search" />
+
+    <ProgressBar
+        android:id="@+id/pb_loading_indicator"
+        android:layout_below="@+id/GoogleButton"
+        android:layout_height="42dp"
+        android:layout_width="42dp"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@+id/pb_loading_indicator"
+        android:layout_alignParentLeft="true"
+        android:maxLines="1000"
+        android:padding="10sp"
+        android:scrollbars="vertical"
+        android:text=" " />
+
+    <TextView
+        android:id="@+id/name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="8dp">
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:gravity="left"
+        android:inputType="text"
+        android:textSize="20dp"
+        android:text="Search Engine" />
 
-        <TextView
-            android:id="@+id/textViewTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:text="Where the Streets Have No Name"
-            android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
-            android:textColor="#000000" />
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/result_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingTop="130dp"
+        android:paddingLeft="20sp"/>
 
-        <TextView
-            android:id="@+id/textViewArtist"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/textViewTitle"
-            android:layout_marginLeft="5dp"
-            android:layout_marginTop="5dp"
-            android:text="U2"
-            android:textAppearance="@style/Base.TextAppearance.AppCompat.Small" />
 
-        <TextView
-            android:id="@+id/textViewYear"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/textViewArtist"
-            android:layout_marginLeft="5dp"
-            android:layout_marginTop="5dp"
-            android:background="@color/colorPrimary"
-            android:paddingLeft="15dp"
-            android:paddingRight="15dp"
-            android:text="1985"
-            android:textAppearance="@style/Base.TextAppearance.AppCompat.Small.Inverse"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/textViewRank"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/textViewYear"
-            android:layout_marginLeft="5dp"
-            android:layout_marginTop="5dp"
-            android:text=""
-            android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
-            android:textStyle="bold" />
-
-    </RelativeLayout>
-
-</LinearLayout>
+</RelativeLayout>

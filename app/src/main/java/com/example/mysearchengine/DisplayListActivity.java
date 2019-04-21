@@ -1,32 +1,18 @@
 package com.example.mysearchengine;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.RecyclerView;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.inputmethod.InputMethodManager;
-import android.view.textclassifier.TextLinks;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.ProgressBar;
-import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,44 +20,77 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 
-public class MainActivity extends Activity {
+public class DisplayListActivity extends AppCompatActivity {
 
-    EditText searchQueryText;
-    Button btn;
-    Button localbtn;
-    TextView resultTextView;
+    String json_string;
+    JSONObject jsonObject;
+    JSONArray jsonArray;
+    ResultsAdapter resultsAdapter;
+    ListView listView;
+
     ProgressBar progressBar;
-
-
     public static String result = null;
     Integer responseCode = null;
     String responseMessage = "";
-    String json_string;
+
+    Button googleBtn;
+    Button localBtn;
+    TextView eText;
+    TextView resultTextView;
 
     private static final String TAG = "SearchEngineApp";
-    private static final String BASE_URL = "http://10.0.2.2:8080/SearchApp/";
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.display_listview_layout);
+        listView = (ListView) findViewById(R.id.listview);
+
+        resultsAdapter = new ResultsAdapter(this, R.layout.row_layout);
+        listView.setAdapter(resultsAdapter);
+        json_string = getIntent().getExtras().getString("json_data");
 
         // GUI init
-        searchQueryText = (EditText) findViewById(R.id.edittext);
-        btn = (Button) findViewById(R.id.GoogleButton);
-        localbtn = (Button) findViewById(R.id.LocalButton);
+        eText = (EditText) findViewById(R.id.edittext);
+        googleBtn = (Button) findViewById(R.id.GoogleButton);
+        localBtn = (Button) findViewById(R.id.LocalButton);
         resultTextView = (TextView) findViewById(R.id.textView1);
         progressBar = (ProgressBar) findViewById(R.id.pb_loading_indicator);
 
-        // Google Search button onClick
-        btn.setOnClickListener(new OnClickListener() {
+        try {
+            jsonObject = new JSONObject(json_string);
+            jsonArray = jsonObject.getJSONArray("items");
+            int count = 0;
+            String title, link, snippet;
+
+            while (count < jsonArray.length()) {
+
+                JSONObject JO = jsonArray.getJSONObject(count);
+                title = JO.getString("title");
+                snippet = JO.getString("snippet");
+                link = JO.getString("formattedUrl");
+
+                ResultsModel resultsModel = new ResultsModel(title, snippet, link);
+                resultsAdapter.add(resultsModel);
+                count++;
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+       /* googleBtn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
 
-                final String searchString = searchQueryText.getText().toString();
+                final String searchString = eText.getText().toString();
                 Log.d(TAG, "Searching for : " + searchString);
                 resultTextView.setText("Searching for : " + searchString);
 
@@ -89,50 +108,33 @@ public class MainActivity extends Activity {
                 String cx = "011866588680669076246:-98upx2nk0a";
 
                 String urlString = "https://www.googleapis.com/customsearch/v1?q=" + searchStringNoSpaces + "&key=" + key + "&cx=" + cx + "&alt=json";
-                URL url = null;
-                try {
-                    url = new URL(urlString);
-                } catch (MalformedURLException e) {
-                    Log.e(TAG, "ERROR converting String to URL " + e.toString());
-                }
-                Log.d(TAG, "Url = "+  urlString);
 
-                MainActivity.GoogleSearchAsyncTask searchTask = new MainActivity.GoogleSearchAsyncTask();
-                searchTask.execute(url);
-
-                //Intent i = new Intent(MainActivity.this,ResultsActivity.class);
-                //i.putExtra("url",urlString);
-                //startActivity(i);
-            }
-        });
-
-        //local search button on click
-        localbtn.setOnClickListener(new OnClickListener() {
-            public void onClick(View v) {
-
-                /*final String searchString = searchQueryText.getText().toString();
-                Log.d(TAG, "Searching for : " + searchString);
-                resultTextView.setText("Searching for : " + searchString);
-
-                // hide keyboard
-                //InputMethodManager inputManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                //inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
-
-                String urlString = BASE_URL + "fetch_data.php";
-
-                Intent i = new Intent(MainActivity.this,LocalSearchActivity.class);
+                Intent i = new Intent(DisplayListActivity.this,ResultsActivity.class);
                 i.putExtra("url",urlString);
-                startActivity(i);*/
-
-
+                startActivity(i);
             }
-        });
+        });*/
+       /*
+
+        Intent i = getIntent();
+        String urlString = i.getStringExtra("url");
+
+        URL url = null;
+        try {
+            url = new URL(urlString);
+        } catch (MalformedURLException e) {
+            Log.e(TAG, "ERROR converting String to URL " + e.toString());
+        }
+        Log.d(TAG, "Url = "+  urlString);
+
+        DisplayListActivity.GoogleSearchAsyncTask searchTask = new DisplayListActivity.GoogleSearchAsyncTask();
+        searchTask.execute(url);*/
+
     }
 
-
+    /*
     class GoogleSearchAsyncTask extends AsyncTask<URL, Integer, String> {
 
-        String JSON_STRING;
         protected void onPreExecute(){
             Log.d(TAG, "AsyncTask - onPreExecute");
             // show progressbar
@@ -168,16 +170,32 @@ public class MainActivity extends Activity {
 
                 if(responseCode == 200) {
 
-                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-                StringBuilder stringBuilder = new StringBuilder();
-                while ((JSON_STRING = bufferedReader.readLine()) != null)
-                {
-                    stringBuilder.append(JSON_STRING+"\n");
-                }
+                    BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                    StringBuffer buffer = new StringBuffer();
 
-                bufferedReader.close();
+                    String line = "";
+                    while((line = bufferedReader.readLine()) != null){
+                        buffer.append(line);
+                    }
 
-                return stringBuilder.toString().trim();
+                    String finalJson = buffer.toString();
+
+                    JSONObject JO = new JSONObject(finalJson);
+                    JSONArray JA = JO.getJSONArray("items");
+
+                    StringBuffer finalBufferedData = new StringBuffer();
+                    for(int i = 0; i < JA.length();i++){
+                        JSONObject finalJO = JA.getJSONObject(i);
+
+                        String title = finalJO.getString("title");
+                        String snippet = finalJO.getString("htmlSnippet");
+                        String link = finalJO.getString("link");
+                        finalBufferedData.append(title + "\n" + link + "\n" + snippet + "\n\n");
+                    }
+
+                    Log.d(TAG, "result=" + result);
+
+                    return finalBufferedData.toString();
 
                 }else{
 
@@ -190,6 +208,8 @@ public class MainActivity extends Activity {
                 }
             } catch (IOException e) {
                 Log.e(TAG, "Http Response ERROR " + e.toString());
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
 
             return null;
@@ -211,7 +231,7 @@ public class MainActivity extends Activity {
             resultTextView.setMovementMethod(new ScrollingMovementMethod());
 
             // show result
-            //resultTextView.setText(result);
+            resultTextView.setText(result);
             json_string = result;
             parseJSON(resultTextView);
         }
@@ -221,16 +241,14 @@ public class MainActivity extends Activity {
 
         if(json_string == null){
 
-            Toast.makeText(getApplicationContext(), "First", Toast.LENGTH_LONG);
         }
         else{
 
-            Intent intent = new Intent(MainActivity.this, DisplayListActivity.class);
+            Intent intent = new Intent(this, DisplayListActivity.class);
             intent.putExtra("json_data",json_string);
-            Log.d(TAG, "json_string:" + json_string);
             startActivity(intent);
 
         }
-    }
+    }*/
 
 }
