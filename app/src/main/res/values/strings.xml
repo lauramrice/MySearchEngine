@@ -3,4 +3,6 @@
     <string name="action_settings">Settings</string>
     <string name="Title_Header">Song Info</string>
     <string name="btn_Get">Get</string>
+    <string name="title_link"><a href="http://www.google.com">tx_name</a>
+    </string>
 </resources>

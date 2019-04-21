@@ -9,6 +9,8 @@ import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -58,6 +60,7 @@ public class DisplayListActivity extends AppCompatActivity {
         listView.setAdapter(resultsAdapter);
         json_string = getIntent().getExtras().getString("json_data");
 
+
         // GUI init
         eText = (EditText) findViewById(R.id.edittext);
         googleBtn = (Button) findViewById(R.id.GoogleButton);
@@ -76,11 +79,20 @@ public class DisplayListActivity extends AppCompatActivity {
                 JSONObject JO = jsonArray.getJSONObject(count);
                 title = JO.getString("title");
                 snippet = JO.getString("snippet");
-                link = JO.getString("formattedUrl");
+                link = JO.getString("link");
 
-                ResultsModel resultsModel = new ResultsModel(title, snippet, link);
+                final ResultsModel resultsModel = new ResultsModel(title, snippet, link);
                 resultsAdapter.add(resultsModel);
                 count++;
+
+                listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent,View view,int position,long id)
+                    {
+                        String textview =((TextView)view.findViewById(R.id.tx_link)).getText().toString();
+                    }
+                });
+
             }
         } catch (JSONException e) {
             e.printStackTrace();
