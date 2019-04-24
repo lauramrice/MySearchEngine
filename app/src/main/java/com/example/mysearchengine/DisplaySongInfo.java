@@ -49,6 +49,7 @@ public class DisplaySongInfo extends AppCompatActivity {
         localBtn = (Button) findViewById(R.id.LocalButton);
         resultTextView = (TextView) findViewById(R.id.textView1);
         progressBar = (ProgressBar) findViewById(R.id.pb_loading_indicator);
+        resultTextView = (TextView) findViewById(R.id.textView2);
 
 
         // The input stream from the JSON response
@@ -103,7 +104,7 @@ public class DisplaySongInfo extends AppCompatActivity {
 
 
 
-                finalBufferedData.append(title + " - " + artist + "\n" + lyrics + "\n\n");
+                finalBufferedData.append(title + " - " + artist + "\n");
                 //string object = (source.getString("the string you want to get"));
                 //final Song song = new Song(rank,title,artist,year,lyrics);
                //songListAdapter.add(song);
