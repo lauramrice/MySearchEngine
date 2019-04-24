@@ -42,7 +42,7 @@ public class SongListAdapter extends ArrayAdapter{
 
             if(row == null){
                 LayoutInflater layoutInflater = (LayoutInflater) this.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                row = layoutInflater.inflate(R.layout.row_layout, parent, false);
+                row = layoutInflater.inflate(R.layout.song_row_layout, parent, false);
                 songHolder = new SongHolder();
                 songHolder.tx_rank = (TextView)row.findViewById(R.id.tx_rank);
                 songHolder.tx_title = (TextView) row.findViewById(R.id.tx_title);

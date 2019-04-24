@@ -42,15 +42,14 @@ public class DisplaySongInfo extends AppCompatActivity {
 
         songListAdapter = new SongListAdapter(this, R.layout.song_row_layout);
         listView.setAdapter(songListAdapter);
+        String response = getIntent().getExtras().getString("query_data");
 
         // GUI init
         eText = (EditText) findViewById(R.id.edittext);
         googleBtn = (Button) findViewById(R.id.GoogleButton);
         localBtn = (Button) findViewById(R.id.LocalButton);
-        resultTextView = (TextView) findViewById(R.id.textView1);
-        progressBar = (ProgressBar) findViewById(R.id.pb_loading_indicator);
         resultTextView = (TextView) findViewById(R.id.textView2);
-
+        progressBar = (ProgressBar) findViewById(R.id.pb_loading_indicator);
 
         // The input stream from the JSON response
         BufferedInputStream buffer = null;
@@ -59,7 +58,7 @@ public class DisplaySongInfo extends AppCompatActivity {
         String url = "";
         URL urlObject = null;
         URLConnection con = null;
-        String response = getIntent().getExtras().getString("query_data");
+
 
         // JSON objects
         JSONArray hitsArray = null;
@@ -106,15 +105,13 @@ public class DisplaySongInfo extends AppCompatActivity {
 
                 finalBufferedData.append(title + " - " + artist + "\n");
                 //string object = (source.getString("the string you want to get"));
-                //final Song song = new Song(rank,title,artist,year,lyrics);
-               //songListAdapter.add(song);
+                final Song song = new Song(rank,title,artist,year,lyrics);
+                songListAdapter.add(song);
             }
 
             Log.d(TAG, "finalBufferdData" + finalBufferedData.toString());
 
-
-
-            resultTextView.setText(finalBufferedData.toString());
+            //resultTextView.setText(finalBufferedData.toString());
         } catch(Exception e) {
             e.printStackTrace();
         }
