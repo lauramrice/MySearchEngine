@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import android.app.Activity;
 import android.content.Context;
@@ -130,94 +131,60 @@ public class MainActivity extends Activity {
                 // hide keyboard
                 InputMethodManager inputManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                 inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
-                /*
-                mSongs = new ArrayList<Song>();
-
-                Retrofit retrofit = new Retrofit.Builder()
-                        .baseUrl(BASE_URL)
-                        .addConverterFactory(GsonConverterFactory.create())
-                        .build();
-
-                ElasticSearchAPI searchAPI = retrofit.create(ElasticSearchAPI.class);
-
-                HashMap<String, String> headerMap = new HashMap<String, String>();
-
-                String searchString = "";
-
-                if(!searchQueryText.equals("")){
-                    searchString = searchString + searchQueryText.getText().toString() + "*";
-                }
-
-                Call<HitsObject> call = searchAPI.search(headerMap, "AND", searchString);
-
-                call.enqueue(new Callback<HitsObject>() {
-                    @Override
-                    public void onResponse(Call<HitsObject> call, Response<HitsObject> response) {
-
-                        HitsList hitsList = new HitsList();
-                        String jsonResponse = "";
-
-                        try {
-                            Log.d(TAG, "onResponse: server response: " + response.toString());
-                            if (response.isSuccessful()) {
-                                hitsList = response.body().getHits();
-                            } else {
-                                jsonResponse = response.errorBody().string();
-                            }
-
-                            Log.d(TAG, "onResponse: hits: " + hitsList);
-
-                            for (int i = 0; i < hitsList.getSongIndex().size(); i++) {
-                                Log.d(TAG, "onResponse: data: " + hitsList.getSongIndex().get(i).getSong().toString());
-                                mSongs.add(hitsList.getSongIndex().get(i).getSong());
-                            }
-
-                            for (int i = 0; i < mSongs.size(); i++) {
-                                Log.d(TAG, "mSongs Data: " + mSongs.get(i).toString());
-                            }
-
-                            Log.d(TAG, "onResponse: size: " + mSongs.size());
-                            //setup the list of posts
-
-                        } catch (NullPointerException e) {
-                            Log.e(TAG, "onResponse: NullPointerException: " + e.getMessage());
-                        } catch (IndexOutOfBoundsException e) {
-                            Log.e(TAG, "onResponse: IndexOutOfBoundsException: " + e.getMessage());
-                        } catch (IOException e) {
-                            Log.e(TAG, "onResponse: IOException: " + e.getMessage());
-                        }
-
-                        //Intent intent = new Intent(MainActivity.this, DisplaySongInfo.class);
-                        //intent.putExtra("query_data", elasticResponse);
-                        //startActivity(intent);
-                        for(Song song : mSongs){
-                            System.out.println(song.rank);
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<HitsObject> call, Throwable t) {
-                        Log.e(TAG, "onFailure: " + t.getMessage() );
-                    }
-
-                });*/
 
                 // URL objects
-                String urlString = "http://10.0.2.2:9200/songs/_search?q=" + searchQuery;
+               // String urlString = "http://10.0.2.2:9200/songs/_search?q=" + searchQuery;
+/*
+                RestHighLevelClient client = new RestHighLevelClient(
+                        RestClient.builder(
+                                new HttpHost("localhost", 9200, "http"),
+                                new HttpHost("localhost", 9201, "http")));
+
+                SearchRequest searchRequest = new SearchRequest("songs");
+                SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
+                searchSourceBuilder.query(QueryBuilders.termQuery("_source", searchQuery));
+                searchSourceBuilder.from(0);
+                searchSourceBuilder.size(15);
+                searchSourceBuilder.timeout(new TimeValue(60, TimeUnit.SECONDS));
+                searchSourceBuilder.query(QueryBuilders.matchAllQuery());
+                searchRequest.source(searchSourceBuilder);
+
+                HighlightBuilder highlightBuilder = new HighlightBuilder();
+                HighlightBuilder.Field highlightLyrics = new HighlightBuilder.Field("Lyrics");
+                highlightBuilder.field(highlightLyrics);
+                searchSourceBuilder.highlighter(highlightBuilder);
+
+                SearchResponse searchResponse = null;
+                try {
+                    searchResponse = client.search(searchRequest, RequestOptions.DEFAULT);
+                    SearchHits hits = searchResponse.getHits();
+                    TotalHits totalHits = hits.getTotalHits();
+                    // the total number of hits, must be interpreted in the context of totalHits.relation
+                    SearchHit[] searchHits = hits.getHits();
+                    for (SearchHit hit : searchHits) {
+                        // do something with the SearchHit
+                        String sourceAsString = hit.getSourceAsString();
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }*/
+
+
+                /*
                 URL url = null;
                 try {
                     url = new URL(urlString);
                 } catch (MalformedURLException e) {
                     Log.e(TAG, "ERROR converting String to URL " + e.toString());
                 }
-                Log.d(TAG, "Url = "+  urlString);
+                Log.d(TAG, "Url = "+  urlString);*/
 
 
             // get a JSON object from ElasticSearch
 
 
-                 MainActivity.LocalSearchAsyncTask searchTask = new MainActivity.LocalSearchAsyncTask();
-                 searchTask.execute(url);
+                 //MainActivity.LocalSearchAsyncTask searchTask = new MainActivity.LocalSearchAsyncTask();
+                 //searchTask.execute(url);
             }
         });
     }
