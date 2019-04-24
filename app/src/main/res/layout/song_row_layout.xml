@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="400dp" android:layout_height="120dp">
+
+    <TextView
+        android:id="@+id/tx_title"
+        android:layout_width="175dp"
+        android:layout_height="30dp"
+        android:clickable="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="10dp"
+        android:gravity="left"
+        android:text="Title"
+        android:textSize="20dp" />
+
+    <TextView
+        android:layout_width="400dp"
+        android:layout_height="15dp"
+        android:id="@+id/tx_rank"
+        android:text="Rank"
+        android:textSize="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_below="@id/tx_title"/>
+
+    <TextView
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/tx_artist"
+        android:text="Artist"
+        android:textSize="20dp"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@id/tx_title"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/tx_year"
+        android:text="Year"
+        android:textSize="20dp"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@id/tx_artist"/>
+
+    <TextView
+        android:layout_width="320dp"
+        android:layout_height="40dp"
+        android:id="@+id/tx_lyrics"
+        android:text="Lyrics"
+        android:textSize="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_below="@id/tx_rank"/>
+
+</RelativeLayout>

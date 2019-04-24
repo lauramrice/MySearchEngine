@@ -13,7 +13,8 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".DisplayListActivity"></activity>
+        <activity android:name=".DisplaySongInfo"></activity>
+        <activity android:name=".DisplayListActivity" />
         <activity android:name=".LocalSearchActivity" />
         <activity android:name=".ResultsActivity" />
         <activity
